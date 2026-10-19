@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Hoihi Insights: TikTok Connected</title>
+<style>
+  :root { --ink: #111827; --muted: #4b5563; --line: #e5e7eb; --accent: #1d4ed8; --bg: #ffffff; --box: #f3f4f6; }
+  @media (prefers-color-scheme: dark) { :root { --ink: #f3f4f6; --muted: #9ca3af; --line: #374151; --accent: #93c5fd; --bg: #0b0f17; --box: #1f2937; } }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 20px 64px; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 0 0 12px; }
+  p { margin: 0 0 16px; }
+  .muted { color: var(--muted); font-size: 15px; }
+  code { display: block; padding: 14px; background: var(--box); border: 1px solid var(--line); border-radius: 8px;
+         font: 15px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+  button { margin-top: 12px; padding: 10px 18px; font: inherit; border: 0; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+  button:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1 id="title">TikTok connected</h1>
+  <p id="intro">Copy the code below and paste it back into the Hoihi Insights setup. It expires soon and works only once.</p>
+  <code id="code"></code>
+  <button id="copy" type="button">Copy code</button>
+  <p class="muted" id="note">This page only displays the code TikTok sent. Nothing is saved or sent anywhere from here.</p>
+</main>
+<script>
+  (function () {
+    var q = new URLSearchParams(window.location.search);
+    var code = q.get("auth_code") || q.get("code") || "";
+    var box = document.getElementById("code");
+    if (!code) {
+      document.getElementById("title").textContent = "No code found";
+      document.getElementById("intro").textContent = "This page is the return address for connecting TikTok to Hoihi Insights. Start the connection from the setup step and you'll land back here with a code.";
+      box.style.display = "none";
+      document.getElementById("copy").style.display = "none";
+      return;
+    }
+    box.textContent = code;
+    history.replaceState(null, "", window.location.pathname);  // drop the code from the address bar and history
+    document.getElementById("copy").addEventListener("click", function () {
+      navigator.clipboard.writeText(code).then(function () {
+        document.getElementById("copy").textContent = "Copied";
+      });
+    });
+  })();
+</script>
+</body>
+</html>
